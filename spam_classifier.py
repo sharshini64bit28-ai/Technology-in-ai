@@ -22,7 +22,7 @@ def download_and_prepare_data():
         os.remove(zip_path)
         print("✅ Download and extraction complete.")
     
-    # Load dataset into pandas dataframe
+    
     data_file = os.path.join(extract_path, "SMSSpamCollection")
     df = pd.read_csv(data_file, sep='\t', names=['label', 'message'])
     return df
@@ -30,29 +30,29 @@ def download_and_prepare_data():
 def main():
     print("=== PROJECT 1: SPAM EMAIL CLASSIFIER ===")
     
-    # 1. Fetch data
+    
     df = download_and_prepare_data()
     print(f"📊 Dataset Loaded: {df.shape[0]} rows.")
     
-    # 2. Encode target labels (ham = 0, spam = 1)
+    
     df['label_num'] = df['label'].map({'ham': 0, 'spam': 1})
     X = df['message']
     y = df['label_num']
     
-    # 3. Split data into training and testing sets (80% train, 20% test)
+    
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    # 4. Convert text data into numerical feature vectors (Bag of Words)
+    
     vectorizer = CountVectorizer(stop_words='english')
     X_train_vec = vectorizer.fit_transform(X_train)
     X_test_vec = vectorizer.transform(X_test)
     
-    # 5. Train Multinomial Naive Bayes Classifier
+    
     print("🤖 Training Naive Bayes model...")
     model = MultinomialNB()
     model.fit(X_train_vec, y_train)
     
-    # 6. Evaluate Model
+    
     y_pred = model.fit(X_train_vec, y_train).predict(X_test_vec)
     accuracy = accuracy_score(y_test, y_pred)
     
@@ -60,7 +60,7 @@ def main():
     print(f"Accuracy: {accuracy * 100:.2f}%")
     print("\nClassification Report:\n", classification_report(y_test, y_pred, target_names=['Ham', 'Spam']))
     
-    # 7. Live Demonstration / Testing
+    
     print("\n🔮 Live Testing Demonstration:")
     test_emails = [
         "Congratulations! You've won a free $1000 Walmart gift card. Click here to claim your prize now!",
